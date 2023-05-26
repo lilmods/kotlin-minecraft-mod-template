@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "modid",
+  "version": "${version}",
+
+  "name": "modid",
+  "description": "ModDescription",
+  "authors": [
+    "{author}"
+  ],
+  "contact": {
+    "homepage": "https://github.com/{githubUser}/{githubRepo}/issues",
+    "sources": "https://github.com/{githubUser}/{githubRepo}"
+  },
+
+  "license": "{license}",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "com.example.modid.fabric.ModName"
+      }
+    ],
+    "modmenu": [
+      "com.example.modid.fabric.config.ModMenu"
+    ]
+  },
+  "mixins": [
+    "modid.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "minecraft": "1.19.x",
+    "java": ">=17",
+    "fabric-language-kotlin": ">=1.9.4+kotlin.1.8.21",
+    "cloth-config": ">=10.0.0"
+  },
+  "suggests": {}
+}

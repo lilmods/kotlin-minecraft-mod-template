@@ -1,0 +1,10 @@
+{
+  "homepage": "https://www.curseforge.com/minecraft/mc-mods/aim-assistance",
+  "1.19.2": {
+    "1.0.0": "initial release"
+  },
+  "promos": {
+    "1.19.2-latest": "1.0.0",
+    "1.19.2-recommended": "1.0.0"
+  }
+}
