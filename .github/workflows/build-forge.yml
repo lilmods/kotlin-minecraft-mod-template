@@ -36,13 +36,14 @@ jobs:
         with:
           gradle-version: 8.1.1
           build-root-directory: forge
-          arguments: ktlintCheck
+          arguments: ktlintCheck --no-daemon
       - name: build
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 8.1.1
           build-root-directory: forge
-          arguments: build
+          # --no-daemon required otherwise build fails. The issue is forge-related. It may be fixed later on.
+          arguments: build --no-daemon
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' }}
         uses: actions/upload-artifact@v2
