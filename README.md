@@ -31,6 +31,24 @@ Load gradle project, it may crash because of SDK errors, in that case:
 Now you can reload gradle project. You should be able to build and run clients. If it's not the case, you renamed
 something wrong. You can see an example here: https://github.com/lilmods/aim-assistance/commit/44743e66f04cde44ad8ccb9490b680069f874c1d.
 
+#### Troubleshooting:
+
+If the build below says "passing" and it does not work in your environment, it means that you did something wrong because
+the CI built the project properly.
+
+- [![build fabric](https://github.com/lilmods/kotlin-minecraft-mod-template/actions/workflows/build-fabric.yml/badge.svg?branch=main)](https://github.com/lilmods/kotlin-minecraft-mod-template/actions/workflows/build-fabric.yml)
+- [![build forge](https://github.com/lilmods/kotlin-minecraft-mod-template/actions/workflows/build-forge.yml/badge.svg?branch=main)](https://github.com/lilmods/kotlin-minecraft-mod-template/actions/workflows/build-forge.yml)
+
+If you have an issue, it could be because of:
+- Wrong rename: 
+  - Take a look at https://github.com/lilmods/aim-assistance/commit/44743e66f04cde44ad8ccb9490b680069f874c1d to see an example of template init
+  - Open git diff with intelliJ, to check every change you made, something may be wrong
+  - You may have forgotten to rename something (folder or filename for example)
+- Caching issues
+  - Try to stop gradle daemon: `./gradlew --stop`
+  - Try to restart intelliJ: `Files > Invalidate caches & restart`
+  - Delete gradle cache: `~/.gradle/caches` (you will need to re-download everything)
+
 ### 3. Updating versions
 
 All the versions of libraries are stored in [Versions.kt](buildSrc/src/main/kotlin/com/example/gradle/Versions.kt).
