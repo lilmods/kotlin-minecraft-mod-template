@@ -1,4 +1,4 @@
-name: release fabric
+name: release forge
 on:
   push:
     tags:
