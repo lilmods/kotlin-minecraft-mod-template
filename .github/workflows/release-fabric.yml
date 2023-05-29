@@ -20,12 +20,12 @@ jobs:
       - name: build
         uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: 7.6
+          gradle-version: 8.1.1
           build-root-directory: fabric
           arguments: build
           cache-read-only: true
       - name: Release
-        uses: anton-yurchenko/git-release@main # https://github.com/marketplace/actions/git-release
+        uses: docker://antonyurchenko/git-release:5.0.2 # https://github.com/marketplace/actions/git-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
