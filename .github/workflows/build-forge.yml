@@ -1,5 +1,23 @@
 name: build forge
-on: [pull_request, push]
+on:
+  pull_request:
+    paths:
+      - .github/workflows/build-forge.yml
+      - build.gradle.kts
+      - 'gradle.properties'
+      - 'gradle/**'
+      - 'buildSrc/**'
+      - 'core/**'
+      - 'forge/**'
+  push:
+    paths:
+      - .github/workflows/build-forge.yml
+      - build.gradle.kts
+      - 'gradle.properties'
+      - 'gradle/**'
+      - 'buildSrc/**'
+      - 'core/**'
+      - 'forge/**'
 
 jobs:
   build:

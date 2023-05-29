@@ -1,5 +1,23 @@
 name: build fabric
-on: [pull_request, push]
+on:
+  pull_request:
+    paths:
+      - .github/workflows/build-fabric.yml
+      - build.gradle.kts
+      - 'gradle.properties'
+      - 'gradle/**'
+      - 'buildSrc/**'
+      - 'core/**'
+      - 'fabric/**'
+  push:
+    paths:
+      - .github/workflows/build-fabric.yml
+      - build.gradle.kts
+      - 'gradle.properties'
+      - 'gradle/**'
+      - 'buildSrc/**'
+      - 'core/**'
+      - 'fabric/**'
 
 jobs:
   build:
