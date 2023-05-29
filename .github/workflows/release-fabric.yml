@@ -5,6 +5,9 @@ on:
       # Example: 1.0.0-MC1.19.x-fabric
       - "[0-9]+.[0-9]+.[0-9]+-MC[0-9]+.[0-9]+.[0-9x]+-fabric"
 
+permissions:
+  contents: write
+
 jobs:
   build:
     strategy:
