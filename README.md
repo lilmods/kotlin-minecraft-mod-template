@@ -1,5 +1,11 @@
 ## How to use this template for your mods:
 
+Versions:
+- Minecraft `1.19.4`
+- Gradle `8.1.1`
+- Kotlin `1.8.21`
+More details in [Versions.kt](buildSrc/src/main/kotlin/com/example/gradle/Versions.kt)
+
 ### 1. Open project with intelliJ
 
 _It should work with other IDE, it only depends on gradle, I did not test it_
