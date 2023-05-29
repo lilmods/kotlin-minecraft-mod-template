@@ -37,6 +37,7 @@ jobs:
           gradle-version: 8.1.1
           build-root-directory: forge
           arguments: ktlintCheck --no-daemon
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
       - name: build
         uses: gradle/gradle-build-action@v2
         with:
@@ -44,6 +45,7 @@ jobs:
           build-root-directory: forge
           # --no-daemon required otherwise build fails. The issue is forge-related. It may be fixed later on.
           arguments: build --no-daemon
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' }}
         uses: actions/upload-artifact@v2

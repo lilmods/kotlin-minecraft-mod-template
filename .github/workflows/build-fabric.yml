@@ -37,12 +37,14 @@ jobs:
           gradle-version: 8.1.1
           build-root-directory: fabric
           arguments: ktlintCheck
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
       - name: build
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 8.1.1
           build-root-directory: fabric
           arguments: build
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' }}
         uses: actions/upload-artifact@v2
