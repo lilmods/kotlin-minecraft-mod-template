@@ -25,8 +25,7 @@ jobs:
           arguments: build
           cache-read-only: true
       - name: Release
-        uses: docker://antonyurchenko/git-release:v5.0.2 # https://github.com/marketplace/actions/git-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          args: fabric/build/libs/*
+          body_path: CHANGELOG-fabric.md
+          files: ./fabric/build/libs/**

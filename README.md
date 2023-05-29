@@ -62,7 +62,7 @@ Put a tag on any branch following this format:
 
 The CD workflows are defined in [.github/workflows](.github/workflows) folder. The release will then be "deployed" on
 github. In the releases tab, you will see your new version with a changelog that contains everything you did put on
-[CHANGELOG.md](CHANGELOG.md).
+[CHANGELOG-forge.md](CHANGELOG-forge.md) (for forge) and [CHANGELOG-fabric.md](CHANGELOG-fabric.md) (for fabric).
 
 ### 5. Put the common code in the core module!
 
