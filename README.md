@@ -17,14 +17,19 @@ Load gradle project, it may crash because of SDK errors, in that case:
 
 ### 2. Search & remplace:
 
-- `{license}`: The mod license
+- `{license}`: The mod license. Example: `GNU-GPL-3.0`
 - `{githubUser}`: The user that owns the github repo. Example: `lilmods`
 - `{githubRepo}`: The name of the github repo. Example: `kotlin-minecraft-mod-template`
 - `{author}`:  The author of the mod. It will be in the mod description (forge & fabric)
-- `modid`: The mod id. Has to be unique across mc mods.
-- `com.example.modid`: The mod package. Has to be unique across mc mods to prevent conflits on runtime.
-- `ModName`: The mod name
+- `modid` **(and not `modId` !!!)**: The mod id. Has to be unique across mc mods. **Make sure to also rename [modid.mixins.json](fabric/src/main/resources/modid.mixins.json)**
+- `com.example.modid`: The mod package. Has to be unique across mc mods to prevent conflits on runtime. Make sure to also rename filenames.
+- `ModName`: The mod name. Make sure to also rename filenames.
 - `ModDescription`: The mod description
+- Replace [LICENSE](LICENSE) file with your license
+- Make sure [Versions.kt](buildSrc/src/main/kotlin/com/example/gradle/Versions.kt) is correct.
+
+Now you can reload gradle project. You should be able to build and run clients. If it's not the case, you renamed
+something wrong. You can see an example here: https://github.com/lilmods/aim-assistance/commit/44743e66f04cde44ad8ccb9490b680069f874c1d.
 
 ### 3. Updating versions
 
