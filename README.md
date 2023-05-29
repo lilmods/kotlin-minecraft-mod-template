@@ -76,20 +76,26 @@ can remove it if you want, in that case, you have to remove the step in the CI w
 [.github/workflows](.github/workflows). There is an IntelliJ plugin to help you. You also can customize the ktlint
 configuration by looking on their official documentation.
 
-### 7. Fabric specific stuff to know
+### 7. The project automatically builds .jar
+
+Everytime the CI runs and succeed, produced artefacts are stored in the workflow run summary. For example, as you can
+see in https://github.com/lilmods/kotlin-minecraft-mod-template/actions/runs/5111050925, there is an "Artifacts" block.
+You can click on it to download the produced .jar files.
+
+### 8. Fabric specific stuff to know
 
 This project uses Kotlin. However, mixins does not work with Kotlin for now, so it's written in Java. There are some
 examples. The template uses `modmenu` & `cloth-config` to manage the mod settings. Everything is ready.
 
 Run client: execute `runClient` gradle task.
 
-### 8. Forge specific stuff to know
+### 9. Forge specific stuff to know
 
 The template uses `cloth-config` to manage the mod settings. Everything is ready.
 
 Run client: execute `runClient` gradle task
 
-### 9. Done !
+### 10. Done !
 
 You can delete everything in the readme from this line, you are ready to go, have fun :)
 
