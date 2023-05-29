@@ -1,6 +1,7 @@
 name: build fabric
 on:
   pull_request:
+    branches: [ "**" ]
     paths:
       - .github/workflows/build-fabric.yml
       - build.gradle.kts
@@ -10,6 +11,7 @@ on:
       - 'core/**'
       - 'fabric/**'
   push:
+    branches: [ "main" ]
     paths:
       - .github/workflows/build-fabric.yml
       - build.gradle.kts

@@ -1,6 +1,7 @@
 name: build forge
 on:
   pull_request:
+    branches: [ "**" ]
     paths:
       - .github/workflows/build-forge.yml
       - build.gradle.kts
@@ -10,6 +11,7 @@ on:
       - 'core/**'
       - 'forge/**'
   push:
+    branches: [ "main" ]
     paths:
       - .github/workflows/build-forge.yml
       - build.gradle.kts
