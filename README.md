@@ -1,10 +1,24 @@
-## How to use this template for your mods:
+## How this template can save you a lot of time
+
+_Read the documentation below to know how to initialize your mod from this template. It's fast as you just have to search and replace text._
+
+Don't lose time setting up your project, everything is ready is this template, including:
+- 📂 **All your code in the same repository**: Multi module gradle project set up and ready to use including forge, fabric, and common code
+- 🆕 **Gradle 8**: Project is ready and uses Gradle 8, for both fabric and forge
+- ⚙️ **Mod settings**: For both fabric & forge, mod settings template is ready, you just have to define the settings of your mod. Powered by cloth config.
+- 👷 **Continuous integration**: On each push / pull request (customizable), github triggers a workflow that will check and build both fabric and forge. The artefacts are downloadable from the web interface
+- 🚚 **Continuous delivery**: On each tag pushed on the main branch (customizable), github triggers a workflow that builds and automatically creates a release with the artefacts and the changelog.
+- ⏩ **Easy to update**: All the versions are stored in one file [Versions.kt](buildSrc/src/main/kotlin/com/example/gradle/Versions.kt). It allows you to update the project without modifying gradle files.
+- ✅ **Linting**: Linting is included and automatically checks your code to make sure you follow kotlin coding conventions. It can be customized as it relies on ktlint.
+- 🇰 **Kotlin**: Be more productive by using Kotlin instead of Java. Try it out, you won't come back to Java.
 
 Versions:
 - Minecraft `1.19.4`
 - Gradle `8.1.1`
 - Kotlin `1.8.21`
 More details in [Versions.kt](buildSrc/src/main/kotlin/com/example/gradle/Versions.kt)
+
+## How to use this template for your mods
 
 ### 1. Open project with intelliJ
 
