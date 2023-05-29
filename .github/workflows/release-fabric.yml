@@ -23,6 +23,7 @@ jobs:
           gradle-version: 7.6
           build-root-directory: fabric
           arguments: build
+          cache-read-only: true
       - name: Release
         uses: anton-yurchenko/git-release@main # https://github.com/marketplace/actions/git-release
         env:

@@ -23,6 +23,7 @@ jobs:
           gradle-version: 7.6
           build-root-directory: forge
           arguments: build
+          cache-read-only: true
       - name: Release
         uses: docker://antonyurchenko/git-release:latest
         env:
