@@ -64,6 +64,11 @@ The CD workflows are defined in [.github/workflows](.github/workflows) folder. T
 github. In the releases tab, you will see your new version with a changelog that contains everything you did put on
 [CHANGELOG-forge.md](CHANGELOG-forge.md) (for forge) and [CHANGELOG-fabric.md](CHANGELOG-fabric.md) (for fabric).
 
+You can see example of releases published from this repo here https://github.com/lilmods/kotlin-minecraft-mod-template/releases
+
+- [![release fabric](https://github.com/lilmods/kotlin-minecraft-mod-template/actions/workflows/release-fabric.yml/badge.svg?branch=main)](https://github.com/lilmods/kotlin-minecraft-mod-template/actions/workflows/release-fabric.yml)
+- [![release forge](https://github.com/lilmods/kotlin-minecraft-mod-template/actions/workflows/release-forge.yml/badge.svg?branch=main)](https://github.com/lilmods/kotlin-minecraft-mod-template/actions/workflows/release-forge.yml)
+
 ### 5. Put the common code in the core module!
 
 If you have common code between forge and fabric, you can put it in the `core` module (you can rename it if you want).
