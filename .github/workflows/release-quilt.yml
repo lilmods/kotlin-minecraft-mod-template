@@ -1,10 +1,10 @@
-name: release fabric
+name: release quilt
 on:
   push:
     tags:
       # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
-      # Example: 1.0.0-MC1.19.x-fabric
-      - "[0-9]+.[0-9]+.[0-9]+-MC[0-9]+.[0-9]+.[0-9x]+-fabric"
+      # Example: 1.0.0-MC1.19.x-quilt
+      - "[0-9]+.[0-9]+.[0-9]+-MC[0-9]+.[0-9]+.[0-9x]+-quilt"
 
 permissions:
   contents: write
@@ -25,11 +25,11 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 7.4
-          build-root-directory: fabric
+          build-root-directory: quilt
           arguments: build
           cache-read-only: true
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          body_path: CHANGELOG-fabric.md
-          files: ./fabric/build/libs/**
+          body_path: CHANGELOG-quilt.md
+          files: ./quilt/build/libs/**

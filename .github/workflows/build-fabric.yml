@@ -36,14 +36,14 @@ jobs:
       - name: ktlint check
         uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: 8.1.1
+          gradle-version: 7.4
           build-root-directory: fabric
           arguments: ktlintCheck
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
       - name: build
         uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: 8.1.1
+          gradle-version: 7.4
           build-root-directory: fabric
           arguments: build
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
