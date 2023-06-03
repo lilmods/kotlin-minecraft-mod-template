@@ -2,17 +2,15 @@ rootProject.name = "ModName"
 
 pluginManagement {
     repositories {
-        mavenCentral()
+        maven("https://maven.fabricmc.net/")
+        maven("https://maven.architectury.dev/")
+        maven("https://maven.minecraftforge.net/")
         gradlePluginPortal()
-        maven("https://maven.fabricmc.net/") {
-            name = "Fabric"
-        }
-        maven("https://maven.minecraftforge.net/") {
-            name = "Forge"
-        }
     }
 }
 
-include("core")
+include("common")
+// include("fabric-like")
 include("fabric")
+// include("quilt")
 include("forge")

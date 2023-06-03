@@ -1,113 +1,100 @@
+plugins {
+    id("com.github.johnrengelman.shadow")
+}
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.text.SimpleDateFormat
-import java.util.Date
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
 
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinGradlePlugin")
+loom {
+    accessWidenerPath.set(project(":common").loom.accessWidenerPath)
+
+    forge.apply {
+        convertAccessWideners.set(true)
+        extraAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
+
+        mixinConfig("examplemod-common.mixins.json")
+        mixinConfig("examplemod.mixins.json")
     }
 }
 
-plugins {
-    java
-    kotlin("jvm")
-    id("net.minecraftforge.gradle") version forgeGradlePlugin
-}
+val common: Configuration by configurations.creating
+val shadowCommon: Configuration by configurations.creating
+val developmentForge: Configuration by configurations.getting
 
-group = "$modGroup.forge"
-version = "$forgeModVersion-forge"
+configurations {
+    compileClasspath.extendsFrom(common)
+    runtimeClasspath.extendsFrom(common)
+    developmentForge.extendsFrom(common)
+}
 
 repositories {
-    maven("https://thedarkcolour.github.io/KotlinForForge/") // Kotlin for Forge
-    maven("https://maven.shedaniel.me/") // Cloth config
+    // KFF
+    maven {
+        name = "Kotlin for Forge"
+        setUrl("https://thedarkcolour.github.io/KotlinForForge/")
+    }
 }
-
-val inJar: Configuration = configurations.create("inJar")
-// configurations.minecraftLibrary.get().extendsFrom(inJar) does not work, the files of inJar dependencies are not
-// included in the minecraft classpath during runtime
-configurations.minecraftLibrary.get().extendsFrom(inJar)
 
 dependencies {
-    minecraft("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
-    implementation("thedarkcolour:kotlinforforge:$kotlinForForge")
-    api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
-    inJar(project(":core"))
+    forge("net.minecraftforge:forge:${rootProject.property("forge_version")}")
+    // Remove the next line if you don't want to depend on the API
+    modApi("dev.architectury:architectury-forge:${rootProject.property("architectury_version")}")
+
+    common(project(":common", "namedElements")) { isTransitive = false }
+    shadowCommon(project(":common", "transformProductionForge")) { isTransitive = false }
+
+    // Kotlin For Forge
+    implementation("thedarkcolour:kotlinforforge:${rootProject.property("kotlin_for_forge_version")}")
 }
 
-val Project.minecraft: net.minecraftforge.gradle.common.util.MinecraftExtension
-    get() = extensions.getByType()
+tasks.processResources {
+    inputs.property("group", rootProject.property("maven_group"))
+    inputs.property("version", project.version)
 
-minecraft.let {
-    it.mappings("official", minecraftVersion)
-    it.runs {
-        all {
-            lazyToken("minecraft_classpath") {
-                inJar.copyRecursive().resolve()
-                    .toList()
-                    .filterNot { it.absolutePath.contains("org.jetbrains") }
-                    .filterNot { it.absolutePath.contains("kotlin-stdlib") }
-                    .joinToString(File.pathSeparator) { it.absolutePath }
-            }
-        }
+    filesMatching("META-INF/mods.toml") {
+        expand(
+            mutableMapOf(
+                Pair("group", rootProject.property("maven_group")),
+                Pair("version", project.version),
 
-        create("client") {
-            workingDirectory(project.file("run"))
-            property("forge.logging.console.level", "debug")
-            mods {
-                create(forgeModVersion) {
-                    source(sourceSets.main.get())
-                }
-            }
-        }
+                Pair("mod_id", rootProject.property("mod_id")),
+                Pair("minecraft_version", rootProject.property("minecraft_version")),
+                Pair("architectury_version", rootProject.property("architectury_version")),
+                Pair("kotlin_for_forge_version", rootProject.property("kotlin_for_forge_version")),
+            ),
+        )
     }
 }
 
-tasks {
-    val javaVersion = JavaVersion.valueOf("VERSION_$jvmTarget")
-    withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        sourceCompatibility = javaVersion.toString()
-        targetCompatibility = javaVersion.toString()
-        if (JavaVersion.current().isJava9Compatible) {
-            options.release.set(javaVersion.toString().toInt())
-        }
-    }
+tasks.shadowJar {
+    exclude("fabric.mod.json")
+    exclude("architectury.common.json")
+    configurations = listOf(shadowCommon)
+    classifier = "dev-shadow"
+}
 
-    withType<KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = javaVersion.toString()
-        }
-    }
+tasks.remapJar {
+    injectAccessWidener.set(true)
+    input.set(tasks.shadowJar.get().archiveFile)
+    dependsOn(tasks.shadowJar)
+    classifier = null
+}
 
-    java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(javaVersion.toString()))
-        }
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-    }
+tasks.jar {
+    classifier = "dev"
+}
 
-    withType<Jar> {
-        doFirst {
-            from(
-                inJar
-                    .filterNot { it.absolutePath.contains("org.jetbrains") }
-                    .filterNot { it.absolutePath.contains("kotlin-stdlib") }
-                    .map { if (it.isDirectory) it else zipTree(it) },
-            )
-        }
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        archiveBaseName.set(modId)
-        manifest {
-            attributes(
-                mapOf(
-                    "Implementation-Title" to project.name,
-                    "Implementation-Version" to project.version,
-                    "Implementation-Timestamp" to SimpleDateFormat("yyyy-MM-dd").format(Date()),
-                ),
-            )
-        }
-        finalizedBy("reobfJar")
+tasks.sourcesJar {
+    val commonSources = project(":common").tasks.getByName<Jar>("sourcesJar")
+    dependsOn(commonSources)
+    from(commonSources.archiveFile.map { zipTree(it) })
+}
+
+components.getByName("java") {
+    this as AdhocComponentWithVariants
+    this.withVariantsFromConfiguration(project.configurations["shadowRuntimeElements"]) {
+        skip()
     }
 }

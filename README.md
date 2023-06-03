@@ -3,7 +3,7 @@
 _Read the documentation below to know how to initialize your mod from this template. It's fast as you just have to search and replace text._
 
 Don't lose time setting up your project, everything is ready is this template, including:
-- 📂 **All your code in the same repository**: Multi module gradle project set up and ready to use including forge, fabric, and common code
+- 📂 **Multiplatform**: Multi module gradle project set up and ready to use including forge, fabric and common code
 - 🆕 **Gradle 8**: Project is ready and uses Gradle 8, for both fabric and forge
 - ⚙️ **Mod settings**: For both fabric & forge, mod settings template is ready, you just have to define the settings of your mod. Powered by cloth config.
 - 👷 **Continuous integration**: On each push / pull request (customizable), github triggers a workflow that will check and build both fabric and forge. The artefacts are downloadable from the web interface
