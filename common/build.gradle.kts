@@ -3,7 +3,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath.set(file("src/main/resources/examplemod.accesswidener"))
+    accessWidenerPath.set(file("src/main/resources/modid.accesswidener"))
 }
 
 dependencies {

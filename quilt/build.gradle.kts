@@ -10,7 +10,7 @@ repositories {
 
 architectury {
     platformSetupLoomIde()
-    fabric()
+    loader("quilt")
 }
 
 loom {
@@ -19,51 +19,56 @@ loom {
 
 val common: Configuration by configurations.creating
 val shadowCommon: Configuration by configurations.creating
-val developmentFabric: Configuration by configurations.getting
+val developmentQuilt: Configuration by configurations.getting
 
 configurations {
     compileClasspath.extendsFrom(common)
     runtimeClasspath.extendsFrom(common)
-    developmentFabric.extendsFrom(common)
+    developmentQuilt.extendsFrom(common)
 }
 
 dependencies {
-    modImplementation("net.fabricmc:fabric-loader:${rootProject.property("fabric_loader_version")}")
-    modApi("net.fabricmc.fabric-api:fabric-api:${rootProject.property("fabric_api_version")}")
-    // Remove the next line if you don't want to depend on the API
-    modApi("dev.architectury:architectury-fabric:${rootProject.property("architectury_version")}")
+    modImplementation("org.quiltmc:quilt-loader:${rootProject.property("quilt_loader_version")}")
+    modApi("org.quiltmc.quilted-fabric-api:quilted-fabric-api:${rootProject.property("quilt_fabric_api_version")}")
+    // Remove the next few lines if you don't want to depend on the API
+    modApi("dev.architectury:architectury-fabric:${rootProject.property("architectury_version")}") {
+        // We must not pull Fabric Loader from Architectury Fabric
+        exclude("net.fabricmc")
+        exclude("net.fabricmc.fabric-api")
+    }
+    modApi("org.quiltmc:qsl:${rootProject.property("quilt_standard_library_version")}")
 
     common(project(":common", "namedElements")) {
         isTransitive = false
     }
-    shadowCommon(project(":common", "transformProductionFabric")){
+    shadowCommon(project(":common", "transformProductionQuilt")) {
         isTransitive = false
     }
-    common(project(":fabric-like", "namedElements")){
+    common(project(":fabric-like", "namedElements")) {
         isTransitive = false
     }
-    shadowCommon(project(":fabric-like", "transformProductionFabric")) {
+    shadowCommon(project(":fabric-like", "transformProductionQuilt")) {
         isTransitive = false
     }
 
-    // Fabric Kotlin
-    modImplementation("net.fabricmc:fabric-language-kotlin:${rootProject.property("fabric_kotlin_version")}")
+    modApi("org.quiltmc.quilt-kotlin-libraries:quilt-kotlin-libraries:${rootProject.property("quilt_kotlin_libraries_version")}")
 }
 
 tasks.processResources {
     inputs.property("group", rootProject.property("maven_group"))
     inputs.property("version", project.version)
 
-    filesMatching("fabric.mod.json") {
-        expand(mutableMapOf(
-            Pair("group", rootProject.property("maven_group")),
-            Pair("version", project.version),
+    filesMatching("quilt.mod.json") {
+        expand(
+            mutableMapOf(
+                Pair("group", rootProject.property("maven_group")),
+                Pair("version", project.version),
 
-            Pair("mod_id", rootProject.property("mod_id")),
-            Pair("minecraft_version", rootProject.property("minecraft_version")),
-            Pair("architectury_version", rootProject.property("architectury_version")),
-            Pair("fabric_kotlin_version", rootProject.property("fabric_kotlin_version"))
-        ))
+                Pair("mod_id", rootProject.property("mod_id")),
+                Pair("minecraft_version", rootProject.property("minecraft_version")),
+                Pair("architectury_version", rootProject.property("architectury_version")),
+            ),
+        )
     }
 }
 
