@@ -1,6 +1,6 @@
 package com.example.modid.forge.config
 
-import com.example.modid.core.ModNameConfig
+import com.example.modid.common.ModNameConfig
 import me.shedaniel.autoconfig.ConfigData
 import me.shedaniel.autoconfig.annotation.Config
 import me.shedaniel.autoconfig.annotation.ConfigEntry

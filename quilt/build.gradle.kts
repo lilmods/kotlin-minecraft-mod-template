@@ -2,58 +2,63 @@ plugins {
     id("com.github.johnrengelman.shadow")
 }
 
+repositories {
+    maven {
+        url = uri("https://maven.quiltmc.org/repository/release/")
+    }
+}
+
 architectury {
     platformSetupLoomIde()
-    forge()
+    loader("quilt")
 }
 
 loom {
     accessWidenerPath.set(project(":common").loom.accessWidenerPath)
-
-    forge.apply {
-        convertAccessWideners.set(true)
-        extraAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
-
-        mixinConfig("examplemod-common.mixins.json")
-        mixinConfig("examplemod.mixins.json")
-    }
 }
 
 val common: Configuration by configurations.creating
 val shadowCommon: Configuration by configurations.creating
-val developmentForge: Configuration by configurations.getting
+val developmentQuilt: Configuration by configurations.getting
 
 configurations {
     compileClasspath.extendsFrom(common)
     runtimeClasspath.extendsFrom(common)
-    developmentForge.extendsFrom(common)
-}
-
-repositories {
-    // KFF
-    maven {
-        name = "Kotlin for Forge"
-        setUrl("https://thedarkcolour.github.io/KotlinForForge/")
-    }
+    developmentQuilt.extendsFrom(common)
 }
 
 dependencies {
-    forge("net.minecraftforge:forge:${rootProject.property("forge_version")}")
-    // Remove the next line if you don't want to depend on the API
-    modApi("dev.architectury:architectury-forge:${rootProject.property("architectury_version")}")
+    modImplementation("org.quiltmc:quilt-loader:${rootProject.property("quilt_loader_version")}")
+    modApi("org.quiltmc.quilted-fabric-api:quilted-fabric-api:${rootProject.property("quilt_fabric_api_version")}")
+    // Remove the next few lines if you don't want to depend on the API
+    modApi("dev.architectury:architectury-fabric:${rootProject.property("architectury_version")}") {
+        // We must not pull Fabric Loader from Architectury Fabric
+        exclude("net.fabricmc")
+        exclude("net.fabricmc.fabric-api")
+    }
+    modApi("org.quiltmc:qsl:${rootProject.property("quilt_standard_library_version")}")
 
-    common(project(":common", "namedElements")) { isTransitive = false }
-    shadowCommon(project(":common", "transformProductionForge")) { isTransitive = false }
+    common(project(":common", "namedElements")) {
+        isTransitive = false
+    }
+    shadowCommon(project(":common", "transformProductionQuilt")) {
+        isTransitive = false
+    }
+    common(project(":fabric-like", "namedElements")) {
+        isTransitive = false
+    }
+    shadowCommon(project(":fabric-like", "transformProductionQuilt")) {
+        isTransitive = false
+    }
 
-    // Kotlin For Forge
-    implementation("thedarkcolour:kotlinforforge:${rootProject.property("kotlin_for_forge_version")}")
+    modApi("org.quiltmc.quilt-kotlin-libraries:quilt-kotlin-libraries:${rootProject.property("quilt_kotlin_libraries_version")}")
 }
 
 tasks.processResources {
     inputs.property("group", rootProject.property("maven_group"))
     inputs.property("version", project.version)
 
-    filesMatching("META-INF/mods.toml") {
+    filesMatching("quilt.mod.json") {
         expand(
             mutableMapOf(
                 Pair("group", rootProject.property("maven_group")),
@@ -62,14 +67,12 @@ tasks.processResources {
                 Pair("mod_id", rootProject.property("mod_id")),
                 Pair("minecraft_version", rootProject.property("minecraft_version")),
                 Pair("architectury_version", rootProject.property("architectury_version")),
-                Pair("kotlin_for_forge_version", rootProject.property("kotlin_for_forge_version")),
             ),
         )
     }
 }
 
 tasks.shadowJar {
-    exclude("fabric.mod.json")
     exclude("architectury.common.json")
     configurations = listOf(shadowCommon)
     classifier = "dev-shadow"

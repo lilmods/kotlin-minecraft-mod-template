@@ -1,25 +1,25 @@
-name: build forge
+name: build quilt
 on:
   pull_request:
     branches: [ "**" ]
     paths:
-      - .github/workflows/build-forge.yml
+      - .github/workflows/build-quilt.yml
       - build.gradle.kts
       - 'gradle.properties'
       - 'gradle/**'
       - 'buildSrc/**'
       - 'core/**'
-      - 'forge/**'
+      - 'quilt/**'
   push:
     branches: [ "main" ]
     paths:
-      - .github/workflows/build-forge.yml
+      - .github/workflows/build-quilt.yml
       - build.gradle.kts
       - 'gradle.properties'
       - 'gradle/**'
       - 'buildSrc/**'
       - 'core/**'
-      - 'forge/**'
+      - 'quilt/**'
 
 jobs:
   build:
@@ -37,20 +37,19 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 7.4
-          build-root-directory: forge
-          arguments: ktlintCheck --no-daemon
+          build-root-directory: quilt
+          arguments: ktlintCheck
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
       - name: build
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 7.4
-          build-root-directory: forge
-          # --no-daemon required otherwise build fails. The issue is forge-related. It may be fixed later on.
-          arguments: build --no-daemon
+          build-root-directory: quilt
+          arguments: build
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' }}
         uses: actions/upload-artifact@v2
         with:
           name: Artifacts
-          path: forge/build/libs/
+          path: quilt/build/libs/
