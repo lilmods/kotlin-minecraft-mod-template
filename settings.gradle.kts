@@ -13,6 +13,6 @@ pluginManagement {
     }
 }
 
-include("core")
+include("common")
 include("fabric")
 include("forge")

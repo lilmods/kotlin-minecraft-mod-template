@@ -31,7 +31,7 @@ dependencies {
     minecraft("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
     implementation("thedarkcolour:kotlinforforge:$kotlinForForge")
     api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
-    inJar(project(":core"))
+    inJar(project(":common"))
 }
 
 val Project.minecraft: net.minecraftforge.gradle.common.util.MinecraftExtension

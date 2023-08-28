@@ -1,4 +1,4 @@
-package com.example.modid.core
+package com.example.modid.common
 
 data class ModNameConfig(
     val doubleField: Double = 60.0,

@@ -21,7 +21,7 @@ val inJar: Configuration = configurations.create("inJar")
 configurations.implementation.get().extendsFrom(inJar)
 
 dependencies {
-    inJar(project(":core"))
+    inJar(project(":common"))
 
     minecraft("com.mojang:minecraft:$minecraftVersion")
     mappings("net.fabricmc:yarn:$yarnMappings:v2")

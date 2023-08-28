@@ -83,9 +83,9 @@ You can see example of releases published from this repo here https://github.com
 - [![release fabric](https://github.com/lilmods/kotlin-minecraft-mod-template/actions/workflows/release-fabric.yml/badge.svg?branch=main)](https://github.com/lilmods/kotlin-minecraft-mod-template/actions/workflows/release-fabric.yml)
 - [![release forge](https://github.com/lilmods/kotlin-minecraft-mod-template/actions/workflows/release-forge.yml/badge.svg?branch=main)](https://github.com/lilmods/kotlin-minecraft-mod-template/actions/workflows/release-forge.yml)
 
-### 5. Put the common code in the core module!
+### 5. Put the common code in the common module!
 
-If you have common code between forge and fabric, you can put it in the `core` module (you can rename it if you want).
+If you have common code between forge and fabric, you can put it in the `common` module (you can rename it if you want).
 The code will then be packaged in the `.jar` produced by fabric and forge.
 
 ### 6. The project has a linter

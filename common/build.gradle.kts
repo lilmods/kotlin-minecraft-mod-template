@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm")
 }
 
-group = "$modGroup.core"
+group = "$modGroup.common"
 version = coreVersion
 
 repositories {
