@@ -10,7 +10,6 @@ buildscript {
 }
 
 plugins {
-    java
     kotlin("jvm")
     id("net.minecraftforge.gradle") version forgeGradlePlugin
 }
@@ -44,7 +43,6 @@ minecraft.let {
         all {
             lazyToken("minecraft_classpath") {
                 inJar.copyRecursive().resolve()
-                    .toList()
                     .filterNot { it.absolutePath.contains("org.jetbrains") }
                     .filterNot { it.absolutePath.contains("kotlin-stdlib") }
                     .joinToString(File.pathSeparator) { it.absolutePath }

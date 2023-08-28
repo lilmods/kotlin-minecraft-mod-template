@@ -13,9 +13,9 @@ Don't lose time setting up your project, everything is ready is this template, i
 - 🇰 **Kotlin**: Be more productive by using Kotlin instead of Java. Try it out, you won't come back to Java.
 
 Versions:
-- Minecraft `1.19.4`
+- Minecraft `1.20.1`
 - Gradle `8.1.1`
-- Kotlin `1.8.21`
+- Kotlin `1.9.10`
 More details in [Versions.kt](buildSrc/src/main/kotlin/com/example/gradle/Versions.kt)
 
 ## How to use this template for your mods
@@ -31,7 +31,7 @@ Load gradle project, it may crash because of SDK errors, in that case:
 
 ### 2. Search & remplace:
 
-- `{license}`: The mod license. Example: `GNU-GPL-3.0`
+- `{license}`: The mod license. Example: `GNU-LGPL-3.0`
 - `{githubUser}`: The user that owns the github repo. Example: `lilmods`
 - `{githubRepo}`: The name of the github repo. Example: `kotlin-minecraft-mod-template`
 - `{author}`:  The author of the mod. It will be in the mod description (forge & fabric)

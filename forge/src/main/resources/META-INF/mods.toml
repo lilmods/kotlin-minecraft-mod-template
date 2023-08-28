@@ -1,6 +1,6 @@
 modLoader = "kotlinforforge"
 
-loaderVersion = "[4,)"
+loaderVersion = "[4,)" # the loader is kotlin for forge
 license = "{license}"
 issueTrackerURL = "https://github.com/{githubUser}/{githubRepo}/issues"
 
@@ -17,12 +17,12 @@ logoFile="icon.png"
 [[dependencies.modid]]
 modId = "forge"
 mandatory = true
-versionRange = "[45,)"
+versionRange = "[47,)"
 ordering = "NONE"
 side = "CLIENT"
 [[dependencies.modid]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.4]"
+versionRange = "[1.20.1]"
 ordering = "NONE"
 side = "CLIENT"

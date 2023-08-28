@@ -27,7 +27,9 @@ dependencies {
     mappings("net.fabricmc:yarn:$yarnMappings:v2")
     modImplementation("net.fabricmc:fabric-loader:$loaderVersion")
     modImplementation("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
-    modApi("me.shedaniel.cloth:cloth-config-fabric:$clothConfigVersion")
+    modApi("me.shedaniel.cloth:cloth-config-fabric:$clothConfigVersion") {
+        exclude("net.fabricmc.fabric-api")
+    }
     modApi("com.terraformersmc:modmenu:$modMenuVersion")
 }
 

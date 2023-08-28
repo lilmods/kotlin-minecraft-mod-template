@@ -1,9 +1,9 @@
-#### v1.0.0 for Minecraft 1.19.4
+#### v1.0.0 for Minecraft 1.20.1
 
 **Prerequisites**:
-- Minecraft: 1.19.4
-- Cloth config: 10.0.0 or newer
-- Forge: 45.0.0 or newer
+- Minecraft: 1.20.1
+- Cloth config: 11.0.0 or newer
+- Forge: 47.0.0 or newer
 
 **Changes**:
 - None
