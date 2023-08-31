@@ -1,5 +1,7 @@
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.js.backend.ast.JsEmpty
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -22,16 +24,11 @@ repositories {
     maven("https://maven.shedaniel.me/") // Cloth config
 }
 
-val inJar: Configuration = configurations.create("inJar")
-// configurations.minecraftLibrary.get().extendsFrom(inJar) does not work, the files of inJar dependencies are not
-// included in the minecraft classpath during runtime
-configurations.minecraftLibrary.get().extendsFrom(inJar)
-
 dependencies {
     minecraft("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
     implementation("thedarkcolour:kotlinforforge:$kotlinForForge")
     api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
-    inJar(project(":common"))
+    compileOnly(project(":common"))
 }
 
 val Project.minecraft: net.minecraftforge.gradle.common.util.MinecraftExtension
@@ -40,23 +37,33 @@ val Project.minecraft: net.minecraftforge.gradle.common.util.MinecraftExtension
 minecraft.let {
     it.mappings("official", minecraftVersion)
     it.runs {
-        all {
-            lazyToken("minecraft_classpath") {
-                inJar.copyRecursive().resolve()
-                    .filterNot { it.absolutePath.contains("org.jetbrains") }
-                    .filterNot { it.absolutePath.contains("kotlin-stdlib") }
-                    .joinToString(File.pathSeparator) { it.absolutePath }
-            }
-        }
-
         create("client") {
             workingDirectory(project.file("run"))
             property("forge.logging.console.level", "debug")
             mods {
-                create(forgeModVersion) {
-                    source(sourceSets.main.get())
+                create(modId) {
+                    sources(
+                        sourceSets.main.get(),
+                        project(":common").sourceSets.main.get(),
+                    )
                 }
             }
+        }
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir(project(":common").sourceSets.main.get().java)
+        }
+
+        kotlin {
+            srcDir(project(":common").sourceSets.main.get().kotlin)
+        }
+
+        resources {
+            srcDir(project(":common").sourceSets.main.get().resources)
         }
     }
 }
@@ -69,6 +76,16 @@ tasks {
         targetCompatibility = javaVersion.toString()
         if (JavaVersion.current().isJava9Compatible) {
             options.release.set(javaVersion.toString().toInt())
+        }
+    }
+
+    withType<ProcessResources> {
+        from(project(":common").sourceSets.main.get().resources)
+    }
+
+    withType<KotlinCompilationTask<*>> {
+        configureEach {
+            JsEmpty.source(project(":common").sourceSets.main.get().allSource)
         }
     }
 
@@ -87,14 +104,6 @@ tasks {
     }
 
     withType<Jar> {
-        doFirst {
-            from(
-                inJar
-                    .filterNot { it.absolutePath.contains("org.jetbrains") }
-                    .filterNot { it.absolutePath.contains("kotlin-stdlib") }
-                    .map { if (it.isDirectory) it else zipTree(it) },
-            )
-        }
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         archiveBaseName.set(modId)
         manifest {
